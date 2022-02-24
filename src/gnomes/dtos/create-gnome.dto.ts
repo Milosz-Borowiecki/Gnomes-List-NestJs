@@ -6,6 +6,8 @@ export class CreateGnomeDto {
     name: string;
 
     @IsNumber()
+    @Min(0)
+    @Max(100)
     age: number;
 
     @IsNumber()
