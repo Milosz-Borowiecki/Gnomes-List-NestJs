@@ -11,28 +11,28 @@ export class GnomesController {
 
     @Get('')
     getGnomes(){
-        
+        return this.gnomesService.getAll();
     }
 
     @Get('/:id')
     getGnome(@Param('id') id: string) {
-        
+        return this.gnomesService.getById(+id);
     }
 
     @Post()
     addGnome(@Body() body: CreateGnomeDto) {
-        
+        return this.gnomesService.add(body.name,body.strength,body.age,body.race);
     }
 
     @Delete('/:id')
     @HttpCode(204)
     removeGnome(@Param('id') id: string){
-        
+        return this.gnomesService.remove(+id);
     }
 
     @Patch('/:id')
     editGnome(@Body() body: EditGnomeDto, @Param('id') id: string) {
-        
+        return this.gnomesService.edit(+id,body.name,body.strength,body.strength,body.race);
     }
 
 }
