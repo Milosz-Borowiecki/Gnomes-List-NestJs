@@ -1,4 +1,5 @@
-import { IsNumber, IsString, Max, Min } from "class-validator";
+import { IsEnum, IsNumber, IsString, Max, Min } from "class-validator";
+import { Races } from "./races";
 
 export class CreateGnomeDto {
 
@@ -15,7 +16,7 @@ export class CreateGnomeDto {
     @Max(150)
     strength: number;
 
-    @IsString()
-    race: string;
+    @IsEnum(Races)
+    race: Races;
 
 }
