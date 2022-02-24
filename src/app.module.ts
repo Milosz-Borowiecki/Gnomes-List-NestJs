@@ -9,9 +9,9 @@ import { GnomesModule } from './gnomes/gnomes.module';
     GnomesModule,
     TypeOrmModule.forRoot({
       type:'sqlite',
-      database: 'db',
+      database: 'db.sqlite',
       synchronize: true,
-      entities: ['**/*.entity.ts']
+      entities: ['**/*.entity.js']
     })
   ],
   controllers: [AppController],
