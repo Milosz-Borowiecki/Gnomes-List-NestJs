@@ -1,4 +1,7 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Multer } from 'multer';
+import { multerOptions } from '../config/multerOptions.config';
 import { CreateGnomeDto } from "./dtos/create-gnome.dto";
 import { EditGnomeDto } from "./dtos/edit-gnome.dto";
 import { GnomesService } from "./gnomes.service";
@@ -20,7 +23,8 @@ export class GnomesController {
     }
 
     @Post()
-    addGnome(@Body() body: CreateGnomeDto) {
+    @UseInterceptors(FileInterceptor('avatar',multerOptions))
+    addGnome(@Body() body: CreateGnomeDto,@UploadedFile() avatar) {
         return this.gnomesService.add(body.name,body.strength,body.age,body.race);
     }
 
