@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { Gnome } from './gnome.entity';
 
@@ -59,4 +60,11 @@ export class GnomesService {
 
         return {error: "The strength must be lower or equal 100"};
     }
+
+    async paginate(options: IPaginationOptions): Promise<Pagination<Gnome>> {
+        const queryBuilder = this.repo.createQueryBuilder('c');
+        queryBuilder.orderBy('c.name', 'DESC');
+    
+        return paginate<Gnome>(queryBuilder, options);
+      }
 }
