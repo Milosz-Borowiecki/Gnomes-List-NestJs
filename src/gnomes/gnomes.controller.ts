@@ -1,6 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, HttpCode, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { CreateGnomeDto } from "./dtos/create-gnome.dto";
 import { EditGnomeDto } from "./dtos/edit-gnome.dto";
+import { Gnome } from './gnome.entity';
 import { GnomesService } from "./gnomes.service";
 
 @Controller('gnomes')
@@ -10,8 +12,16 @@ export class GnomesController {
     }
 
     @Get('')
-    getGnomes(){
-        return this.gnomesService.getAll();
+    getGnomes(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+        @Query('limit', new DefaultValuePipe(2), ParseIntPipe) limit: number = 2,
+    ): Promise<Pagination<Gnome>> {
+        limit = limit > 100 ? 100 : limit;
+        return this.gnomesService.paginate({
+            page,
+            limit,
+            route: 'http://localhost:3000/gnomes',
+        });
     }
 
     @Get('/:id')
