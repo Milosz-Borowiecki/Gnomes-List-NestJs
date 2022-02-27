@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
+import { Races } from './dtos/races';
 import { Gnome } from './gnome.entity';
+
+
 
 @Injectable()
 export class GnomesService {
@@ -67,4 +70,19 @@ export class GnomesService {
     
         return paginate<Gnome>(queryBuilder, options);
       }
+
+      async paginateFilter(options: IPaginationOptions,gnomeType: string): Promise<Pagination<Gnome>>{
+
+        if ((<any>Object).values(Races).includes(gnomeType)) {
+
+            const queryBuilder = this.repo.createQueryBuilder('c').where({
+                race: gnomeType
+            });
+            queryBuilder.orderBy('c.name', 'DESC');
+        
+            return paginate<Gnome>(queryBuilder, options);
+        }
+
+        return null;
+    }
 }
