@@ -1,5 +1,6 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, HttpCode, Param, ParseEnumPipe, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, HttpCode, Param, ParseEnumPipe, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateGnomeDto } from "./dtos/create-gnome.dto";
 import { EditGnomeDto } from "./dtos/edit-gnome.dto";
 import { Gnome } from './gnome.entity';
@@ -44,17 +45,20 @@ export class GnomesController {
         return this.gnomesService.getById(+id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post()
     addGnome(@Body() body: CreateGnomeDto) {
         return this.gnomesService.add(body.name,body.strength,body.age,body.race);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete('/:id')
     @HttpCode(204)
     removeGnome(@Param('id') id: string){
         return this.gnomesService.remove(+id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch('/:id')
     editGnome(@Body() body: EditGnomeDto, @Param('id') id: string) {
         return this.gnomesService.edit(+id,body.name,body.strength,body.strength,body.race);
