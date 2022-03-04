@@ -5,8 +5,6 @@ import { Repository } from 'typeorm';
 import { Races } from './dtos/races';
 import { Gnome } from './gnome.entity';
 
-
-
 @Injectable()
 export class GnomesService {
 
