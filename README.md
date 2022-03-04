@@ -51,10 +51,6 @@ Authentication not required
 ```
 http://localhost:/gnomes
 ```
-If you want to see specific gnome just add his id.
-```
-http://localhost:3000/gnomes/<int:id>
-```
 
 #### Filtering
 
