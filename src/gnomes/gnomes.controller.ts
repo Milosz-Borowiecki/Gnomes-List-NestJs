@@ -61,7 +61,7 @@ export class GnomesController {
     @UseGuards(JwtAuthGuard)
     @Patch('/:id')
     editGnome(@Body() body: EditGnomeDto, @Param('id') id: string) {
-        return this.gnomesService.edit(+id,body.name,body.strength,body.strength,body.race);
+        return this.gnomesService.edit(+id,body.name,body.strength,body.age,body.race);
     }
 
 }
